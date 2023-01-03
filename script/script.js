@@ -33,7 +33,8 @@ player.$fillTime = player.$seekTime.querySelector('.fill-time')
 player.$fillTimeDot = player.$seekTime.querySelector('.dot-seek-bar-time')
 player.$fillVolume = player.$seekVolume.querySelector('.fill-volume')
 player.$fillVolumeDot = player.$seekVolume.querySelector('.dot-seek-bar-volume')
-player.$playlist = document.querySelector('.playlist-table')
+player.$playlist = document.querySelector('.playlist-table-div')
+player.$playlistTable = document.querySelector('.playlist-table')
 
 // Get width of seekbar and volume bar to calculate the lenght for the resize
 let seekTimeWidth = player.$seekTime.offsetWidth
@@ -51,6 +52,7 @@ let localIndexRandomMusic = localStorage.getItem('localIndexRandomMusic')
 let randomMusicNumbersArray = []
 let playlistDatabase
 let musicNumber = 0
+let beforeMusicNumber = 0
 
 // Fetching JSON player database and execute the first music loading based on localStorage values
 window
@@ -75,9 +77,10 @@ window
         }
         else{
             musicNumber = 0
+            beforeMusicNumber = 0
         }
         changeMusic()
-        ChangePlaylist()
+        CreatePlaylist()
     })
     .catch(error => { console.log(error) })
 
@@ -141,13 +144,12 @@ const nextMusicChanger = () =>
     // Then we call functions to change musics informations and path
     imagesChange('animated-next', 2000)
     changeMusic()
+    ChangePlaylist()
     localStorage.setItem('localMusicNumber', musicNumber)
     player.$audio.currentTime = 0
     simpleUpdateSeekBar()
-    player.$playlist.innerHTML = ''
     player.$audio.play()
     player.$play.classList.replace('is-not-active', 'is-active')
-    ChangePlaylist()
 }
 
 // Call back the nextMusic function
@@ -193,7 +195,6 @@ const previousMusicChanger = () =>
         player.$audio.play()
         player.$play.classList.replace('is-not-active', 'is-active')
     }
-    player.$playlist.innerHTML = ''
     localStorage.setItem('localMusicNumber', musicNumber)
 }
 
@@ -773,32 +774,52 @@ let track = player.$audio.textTracks[0]
 track.mode = 'hidden'
 
 // Function to change playlist when cue is changing
-const ChangePlaylist = () =>
+const CreatePlaylist = () =>
 {
-    player.$playlist.innerHTML = ''
-    let table = document.createElement('table')
-    table.classList.add('playlist')
+    beforeMusicNumber = musicNumber
+    console.log('CreatePlaylist')
+    let table = player.$playlistTable
+    table.classList.add('playlist-table')
     let tbody = document.createElement('tbody')
+    tbody.classList.add('playlist-table-body')
+
+    // Make table scrollable with style
+    table.style.height = `${player.$playlist.offsetHeight}px`
+    table.style.overflowY = 'scroll'
+
     for (let i = 0; i < playlistDatabase.length; i++) {
         let tr = document.createElement('tr')
         let td = document.createElement('td')
         td.innerHTML = `<span><img src="${playlistDatabase[i].albumCover}" alt="" height="60px" width="60px"/>&nbsp;${playlistDatabase[i].musicName}</span>`
-        td.classList.add('playlist-tr')
+        td.classList.add('playlist-td')
+        // add tag
+        td.setAttribute('playlist-number', i)
 
         if (i == musicNumber) {
             td.classList.add('current')
-        } else {
-            td.addEventListener('click', () => {
+        } 
+    
+        td.addEventListener('click', () => {
+            if (i != musicNumber) {
+                beforeMusicNumber = musicNumber
                 musicNumber = i-1
                 nextMusicChanger()
-            })
-        }
+            }
+        })
         tr.appendChild(td)
         tbody.appendChild(tr)
     }
     table.appendChild(tbody)
     player.$playlist.appendChild(table)
-    console.log(table)
+}
+
+const ChangePlaylist = () =>
+{
+    console.log("ChangePlaylist")
+    let body = player.$playlistTable.querySelector('.playlist-table-body')
+    // select as beforeMusicNumber
+    body.querySelector(`[playlist-number="${beforeMusicNumber}"]`).classList.remove('current')
+    body.querySelector(`[playlist-number="${musicNumber}"]`).classList.add('current')
 }
 
 

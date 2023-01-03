@@ -532,8 +532,8 @@
     },
     {
         "audioSrc": "https://bluearchive.ilove2d.me/0:/Blue%20Archive%20Collections/Blue%20Archive%20BGMs/Theme_78_KARUT 30_Fevertime_-1dB_.wav",
-        "artist": "KARUT",
-        "musicName": "Fevertime",
+        "artist": "BlueArchive",
+        "musicName": "Theme_78_KARUT 30_Fevertime_-1dB_",
         "albumCover": "https://bluearchive.ilove2d.me/0:/Blue%20Archive%20Collections/Blue%20Archive%20BGMs/cover.png",
         "albumCoverDataURi": "https://bluearchive.ilove2d.me/0:/Blue%20Archive%20Collections/Blue%20Archive%20BGMs/cover_100.png",
         "backgroundImage": "./images/backgrounds-artists/BlueArchive.webp",
@@ -559,8 +559,8 @@
     },
     {
         "audioSrc": "https://bluearchive.ilove2d.me/0:/Blue%20Archive%20Collections/Blue%20Archive%20BGMs/Theme_68_Mitsukiyo 25_Virtual_Storm_Hard_Arrange(-1dB).wav",
-        "artist": "Mitsukiyo",
-        "musicName": "Virtual Storm (Hard Arrange)",
+        "artist": "BlueArchive",
+        "musicName": "Theme_68_Mitsukiyo 25_Virtual_Storm_Hard_Arrange(-1dB)",
         "albumCover": "https://bluearchive.ilove2d.me/0:/Blue%20Archive%20Collections/Blue%20Archive%20BGMs/cover.png",
         "albumCoverDataURi": "https://bluearchive.ilove2d.me/0:/Blue%20Archive%20Collections/Blue%20Archive%20BGMs/cover_100.png",
         "backgroundImage": "./images/backgrounds-artists/BlueArchive.webp",
