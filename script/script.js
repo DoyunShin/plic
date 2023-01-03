@@ -13,7 +13,7 @@ const repeatButton = controlButtons.find((item) => item.classList.contains('repe
 const randomButton = controlButtons.find((item) => item.classList.contains('random-button'))
 const volumeIcon = document.querySelector('.toggle-volume')
 
-// Get player elements (images, lyrics) and basics controls
+// Get player elements (images, playlist) and basics controls
 const player = {}
 player.$container = document.querySelector('.controls-player')
 player.$imagesContainer = document.querySelector('.images-container')
@@ -33,8 +33,7 @@ player.$fillTime = player.$seekTime.querySelector('.fill-time')
 player.$fillTimeDot = player.$seekTime.querySelector('.dot-seek-bar-time')
 player.$fillVolume = player.$seekVolume.querySelector('.fill-volume')
 player.$fillVolumeDot = player.$seekVolume.querySelector('.dot-seek-bar-volume')
-player.$lyricsOrigin = document.querySelector('track')
-player.$lyricsSpan = document.querySelector('.first-lyric')
+player.$playlist = document.querySelector('.playlist-table')
 
 // Get width of seekbar and volume bar to calculate the lenght for the resize
 let seekTimeWidth = player.$seekTime.offsetWidth
@@ -78,6 +77,7 @@ window
             musicNumber = 0
         }
         changeMusic()
+        ChangePlaylist()
     })
     .catch(error => { console.log(error) })
 
@@ -144,9 +144,10 @@ const nextMusicChanger = () =>
     localStorage.setItem('localMusicNumber', musicNumber)
     player.$audio.currentTime = 0
     simpleUpdateSeekBar()
-    player.$lyricsSpan.innerHTML = ''
+    player.$playlist.innerHTML = ''
     player.$audio.play()
     player.$play.classList.replace('is-not-active', 'is-active')
+    ChangePlaylist()
 }
 
 // Call back the nextMusic function
@@ -192,7 +193,7 @@ const previousMusicChanger = () =>
         player.$audio.play()
         player.$play.classList.replace('is-not-active', 'is-active')
     }
-    player.$lyricsSpan.innerHTML = ''
+    player.$playlist.innerHTML = ''
     localStorage.setItem('localMusicNumber', musicNumber)
 }
 
@@ -261,8 +262,7 @@ const changeMusic = () =>
 
     // Change sources of the audio and player elements
     player.$albumImageUri.src = playlistDatabase[musicNumber].albumCoverDataURi
-    player.$audio.src = playlistDatabase[musicNumber].audioSrc   
-    player.$lyricsOrigin.src = playlistDatabase[musicNumber].lyrics
+    player.$audio.src = playlistDatabase[musicNumber].audioSrc
 
     // Wait to load metadata and then display current time and time
     player.$audio.addEventListener('loadedmetadata', () =>
@@ -765,29 +765,41 @@ const mainColorDef = () =>
 
 
 //////////////////////////////////////////////////////////
-// GET TRACK TAG AND DISPLAY LYRICS WITH CSS ANIMATION //
+// GET TRACK TAG AND DISPLAY Playlist WITH CSS ANIMATION //
 ////////////////////////////////////////////////////////
 
 // Init track and track visibility
 let track = player.$audio.textTracks[0]
 track.mode = 'hidden'
 
-// Function to change Lyrics when cue is changing
-const lyricsChanger = () =>
+// Function to change playlist when cue is changing
+const ChangePlaylist = () =>
 {
-    track.addEventListener('cuechange',() =>
-    {
-        if(track.activeCues[0]){
-            let cue = track.activeCues[0].text
-            player.$lyricsSpan.classList.replace('show-lyric', 'hide-lyric')
-            setTimeout(() => {
-                player.$lyricsSpan.innerHTML = cue
-                player.$lyricsSpan.classList.replace('hide-lyric', 'show-lyric')
-            }, 100)
+    player.$playlist.innerHTML = ''
+    let table = document.createElement('table')
+    table.classList.add('playlist')
+    let tbody = document.createElement('tbody')
+    for (let i = 0; i < playlistDatabase.length; i++) {
+        let tr = document.createElement('tr')
+        let td = document.createElement('td')
+        td.innerHTML = `<span><img src="${playlistDatabase[i].albumCover}" alt="" height="60px" width="60px"/>&nbsp;${playlistDatabase[i].musicName}</span>`
+        td.classList.add('playlist-tr')
+
+        if (i == musicNumber) {
+            td.classList.add('current')
+        } else {
+            td.addEventListener('click', () => {
+                musicNumber = i-1
+                nextMusicChanger()
+            })
         }
-    })
+        tr.appendChild(td)
+        tbody.appendChild(tr)
+    }
+    table.appendChild(tbody)
+    player.$playlist.appendChild(table)
+    console.log(table)
 }
-lyricsChanger()
 
 
 ///////////////////////////////////////////////////////////////////////////////

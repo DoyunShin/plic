@@ -96,7 +96,7 @@
 
 
 /* LYRICS CONTAINER */
-.lyrics-container{
+.playlist-container{
     width: 50%;
     height: calc(100vh - 125px);
     display: flex;
@@ -108,7 +108,7 @@
         width: 90%;
         height: calc(100vh - 260px);
     }
-    .lyrics-title{
+    .playlist-title{
         position: absolute;
         top: 10%;
         font-family: 'Montserrat', sans-serif;
@@ -120,7 +120,7 @@
         }
     }
     /* CSS OF THE LYRIC ITSELF */
-    .lyrics-current-time{
+    .playlist-table{
         width: 90%;
         overflow: hidden;
         display: flex;
