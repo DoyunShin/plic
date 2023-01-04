@@ -144,7 +144,6 @@ const nextMusicChanger = () =>
     // Then we call functions to change musics informations and path
     imagesChange('animated-next', 2000)
     changeMusic()
-    ChangePlaylist()
     localStorage.setItem('localMusicNumber', musicNumber)
     player.$audio.currentTime = 0
     simpleUpdateSeekBar()
@@ -289,6 +288,7 @@ const changeMusic = () =>
         player.$bioImage.style.backgroundImage = `url("${playlistDatabase[musicNumber].bioImage}")`
         player.$albumImage.style.backgroundImage = `url("${playlistDatabase[musicNumber].albumCover}")`
     }, 1000)
+    ChangePlaylist()
 
     // Call back the Mediadata updater 
     mediaSessionUpdate()
@@ -779,7 +779,6 @@ const CreatePlaylist = () =>
     beforeMusicNumber = musicNumber
     console.log('CreatePlaylist')
     let table = player.$playlistTable
-    table.classList.add('playlist-table')
     let tbody = document.createElement('tbody')
     tbody.classList.add('playlist-table-body')
 
@@ -804,7 +803,7 @@ const CreatePlaylist = () =>
                 beforeMusicNumber = musicNumber
                 musicNumber = i-1
                 nextMusicChanger()
-            }
+            } 
         })
         tr.appendChild(td)
         tbody.appendChild(tr)
@@ -820,6 +819,7 @@ const ChangePlaylist = () =>
     // select as beforeMusicNumber
     body.querySelector(`[playlist-number="${beforeMusicNumber}"]`).classList.remove('current')
     body.querySelector(`[playlist-number="${musicNumber}"]`).classList.add('current')
+
 }
 
 

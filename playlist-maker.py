@@ -19,6 +19,7 @@ def main():
     for file in path.iterdir():
         if file.is_file():
             if file.name == "cover.png": continue
+            elif file.name == "cover_100.png": continue
             nowdata = {}
             nowdata['audioSrc'] = base_url + file.name
             if "Theme " in file.stem:
@@ -46,6 +47,7 @@ def main():
             nowdata['bioImage'] = './images/bio-artists/BlueArchive.png'
             playlist.append(nowdata)
     
+    playlist.sort(key=lambda x: x["musicName"])
     Path("playlist.json").write_text(json.dumps(playlist, indent=4))
 
 if __name__ == "__main__":
