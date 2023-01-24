@@ -1,6 +1,6 @@
 :root {
-    --main-album-color: #FEE795;
-    --darker-main-album-color: #EDE272;
+    --main-album-color: #d3f6fb;
+    --darker-main-album-color: rgb(52, 233, 240);
     font-size: 62.5%
 }
 
@@ -130,13 +130,6 @@
     }
 }
 
-.playlist-container .playlist-table {
-    width: 90%;
-    overflow: hidden;
-    display: flex;
-    justify-content: center
-}
-
 .playlist-container .playlist-table span {
     display: inline-block;
     transition: color 0.3s ease-in-out;
@@ -151,12 +144,7 @@
     }
 }
 
-.playlist-container .playlist-table .playlist-table {
-    font-family: 'Antic Didone', serif;
-    color: var(--main-album-color);
-    margin-bottom: 20px;
-    will-change: transform, opacity
-}
+
 
 .playlist-container .playlist-table .playlist-table.hide-playlist {
     animation: hide-playlist 0.1s cubic-bezier(0.7, 0, 0.3, 1) forwards
@@ -179,8 +167,11 @@
 }
 
 .playlist-table {
+    width: 90%;
     display: block;
     overflow: auto;
+    float: right;
+    margin-right: 5%;
 }
 table {
     width: 100%; height: 100%;
@@ -190,15 +181,22 @@ table {
 }
 td {
     padding: 10px;
-    text-align: center;
-    font-size: 1.2rem;
     font-weight: 400;
     color: #000000;
     cursor: pointer
 }
+span {
+    text-align: left;
+    vertical-align: middle;
+    font-size: 1.2rem;
+    font-weight: 400;
+    cursor: pointer
+}
 
 .current {
-    color: aqua;
+    color: var(--darker-main-album-color);
+    background-color: gray;
+    border-radius: 20px / 20px;
 }
 
 .controls-player {
@@ -471,7 +469,7 @@ td {
 
 .controls-player .controls .buttons-controls-music .play-button.is-active::after {
     position: absolute;
-    color: var(--main-album-color);
+    color: var(--darker-main-album-color);
     content: "\ea1d";
     font-size: 2.8rem;
     transform: translate(-50%, -50%)
@@ -479,7 +477,7 @@ td {
 
 .controls-player .controls .buttons-controls-music .play-button.is-not-active::after {
     position: absolute;
-    color: var(--main-album-color);
+    color: var(--darker-main-album-color);
     content: "\ea1a";
     font-size: 2.8rem;
     transform: translate(-50%, -50%)
