@@ -77,7 +77,6 @@ window
         }
         else{
             musicNumber = 0
-            beforeMusicNumber = 0
         }
         changeMusic()
         CreatePlaylist()
@@ -144,6 +143,7 @@ const nextMusicChanger = () =>
     // Then we call functions to change musics informations and path
     imagesChange('animated-next', 2000)
     changeMusic()
+    ChangePlaylist()
     localStorage.setItem('localMusicNumber', musicNumber)
     player.$audio.currentTime = 0
     simpleUpdateSeekBar()
@@ -249,6 +249,15 @@ const imagesChange = (classToChange, animationTimeUser) =>
 // Function to change the music
 const changeMusic = () =>
 {
+    if (player.$playlistTable.innerHTML != '') {
+        let body = player.$playlistTable.querySelector('.playlist-table-body')
+        console.log(body.innerHTML)
+        if (body.innerHTML != ''){
+            body.querySelector(`[playlist-number="${beforeMusicNumber}"]`).classList.remove('current')
+            body.querySelector(`[playlist-number="${musicNumber}"]`).classList.add('current')
+        }
+    }
+    
     player.$audio.pause()
     if(musicNumber > playlistDatabase.length-1){
         musicNumber = 0
@@ -277,7 +286,7 @@ const changeMusic = () =>
     // Call main colors defined function when album cover Data URL is loaded
     player.$albumImageUri.addEventListener('load', () =>
     {
-        mainColorDef()
+        //mainColorDef()
         simpleUpdateSeekBar()
     })
 
@@ -288,13 +297,13 @@ const changeMusic = () =>
         player.$bioImage.style.backgroundImage = `url("${playlistDatabase[musicNumber].bioImage}")`
         player.$albumImage.style.backgroundImage = `url("${playlistDatabase[musicNumber].albumCover}")`
     }, 1000)
-    ChangePlaylist()
 
     // Call back the Mediadata updater 
     mediaSessionUpdate()
 
     // Store locally the music number 
     localStorage.setItem('localMusicNumber', musicNumber)
+    beforeMusicNumber = musicNumber
 }
 
 // Function to trigger CSS Animation when changing music name and artist
@@ -779,6 +788,7 @@ const CreatePlaylist = () =>
     beforeMusicNumber = musicNumber
     console.log('CreatePlaylist')
     let table = player.$playlistTable
+    table.classList.add('playlist-table')
     let tbody = document.createElement('tbody')
     tbody.classList.add('playlist-table-body')
 
@@ -803,7 +813,7 @@ const CreatePlaylist = () =>
                 beforeMusicNumber = musicNumber
                 musicNumber = i-1
                 nextMusicChanger()
-            } 
+            }
         })
         tr.appendChild(td)
         tbody.appendChild(tr)
@@ -817,9 +827,6 @@ const ChangePlaylist = () =>
     console.log("ChangePlaylist")
     let body = player.$playlistTable.querySelector('.playlist-table-body')
     // select as beforeMusicNumber
-    body.querySelector(`[playlist-number="${beforeMusicNumber}"]`).classList.remove('current')
-    body.querySelector(`[playlist-number="${musicNumber}"]`).classList.add('current')
-
 }
 
 
