@@ -1,5 +1,5 @@
 # Plic - Music Player
-> A custom music player modular with JSON database
+> A custom music player modular with JSON
 
 ## Features
 - Basic music player controls (play/pause, previous/next music, seekbar and volume bar)
